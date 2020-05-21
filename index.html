@@ -8,7 +8,6 @@
 <script src="wordlist.js"></script>
 <link rel="stylesheet" type="text/css" href="style.css">
 <script>
-	let result=[];
 	let finalresult="";
 	let resultwithlength=[]; 
 	let numbersfilter = "";
@@ -165,7 +164,7 @@ if (finalresult==""){
 
 //find 
 function checkinput(){
-result=[];
+resultwithlength=[];
 let countletters = document.getElementById("letters").value.trim().toLowerCase();
 
 document.getElementById("con").innerHTML = ""; //clear letter filter
@@ -178,6 +177,14 @@ if(countletters.length==0){
 document.getElementById("results").innerHTML = "Loading...";
 Exactletters = document.getElementById("Exactletters").checked;
  
+ // min=1 max=99;
+let minwordlength = Number(document.getElementById("minquantity").value);
+let maxwordlength = Number(document.getElementById("maxquantity").value); 
+if ( minwordlength<1 || maxwordlength<1 || minwordlength>99 || maxwordlength>99){
+	alert("word length only 1-99");
+	return;
+}
+
 //takes a-z A-Z letters only
 inputarr = getletters(countletters);
 inputarrString="[  ";
@@ -191,45 +198,28 @@ for (key in inputarr) {
 document.getElementById("Searchedfor").innerHTML = inputarrString.substring(0, inputarrString.length-2)+" ]";
 
 //console.log(inputarr); //***
-
-for(let i=0;i<wordlist.length;i++)
-{
-	//checkword() doesn't check wordlist input 
-	if(checkword(wordlist[i],inputarr)==true)	{
-	result.push(wordlist[i]);
-	}
-}
-
-//console.log(result); //***
-
-	if(result.length==0)
-		{
-			document.getElementById("results").innerHTML = "No result found";
-			return;
-		}
-
-//filter
-// min=1 max=99;
-let minwordlength = Number(document.getElementById("minquantity").value);
-let maxwordlength = Number(document.getElementById("maxquantity").value); 
-let smallnum = maxwordlength - minwordlength;
-if ( minwordlength<1 || maxwordlength<1 || minwordlength>99 || maxwordlength>99){
-	alert("word length only 1-99");
-	return;
-}
-if (smallnum<0){
+if (maxwordlength - minwordlength<0){
 let mintemp=minwordlength;
 minwordlength = maxwordlength;
 maxwordlength = mintemp;
 }
 
-resultwithlength=[];
-for(let i=0;i<result.length;i++){
-	if(result[i].length>=minwordlength && result[i].length<=maxwordlength)
-	{
-		resultwithlength.push(result[i]);
+for(let i=0;i<wordlist.length;i++)
+{
+	//checkword() doesn't check wordlist input 
+	if(wordlist[i].length>=minwordlength && wordlist[i].length<=maxwordlength){
+		if(checkword(wordlist[i],inputarr)==true){
+			resultwithlength.push(wordlist[i]);
+		}
 	}
 }
+	if(resultwithlength.length==0)
+		{
+			document.getElementById("results").innerHTML = "No result found";
+			document.getElementById("resultsCount").innerHTML ="0";
+			return;
+		}
+
 //show result with length //resultwithlength.toString();
 filternumber(-1); 
 
@@ -237,7 +227,7 @@ filternumber(-1);
 numbersfilter = "";
 for(let i=Number(minwordlength);i<=Number(maxwordlength);i++)
 {
-	numbersfilter += '<button class="myButtonnumber"  onclick="filternumber('+i+')">'+i+'</button>';
+	numbersfilter += '<button class="myButtonnumber" onclick="filternumber('+i+')">'+i+'</button>';
 }
 numbersfilter += '<button class="myButtonclear" onclick="filternumber(-1)">X</button>';
 document.getElementById("numbers").innerHTML = numbersfilter;
@@ -255,7 +245,7 @@ document.getElementById("numbers").innerHTML = numbersfilter;
 	<div>
 	<input placeholder="Search letters" class="inputtext "type="text" value="" id="letters" onkeypress="return searchKeyPress(event);" name="letters">
 	<input placeholder="Min" class="numberinput" type="number" maxlength="2" value="2" id="minquantity" name="minquantity" min="1" max="99">
-	<input placeholder="Max" class="numberinput" type="number" maxlength="2" value="8" id="maxquantity" name="maxquantity" min="1" max="99">
+	<input placeholder="Max" class="numberinput" type="number" maxlength="2" value="7" id="maxquantity" name="maxquantity" min="1" max="99">
 	</div>
 	<label class="Searchedfor" id="Searchedfor"></label><br>
 	<a class="myButton" id="findBtn" onclick="checkinput()">Find</a>
