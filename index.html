@@ -40,7 +40,7 @@ for (let i=0;i<word.length;i++){
 		lettersarray[index]++;
 		}
 		else{
-       console.log("wrong input" + "'"+ word[i]+"'");
+       console.log(`wrong input '${word[i]}'`);
 	 }
 }
 	return lettersarray;
@@ -84,17 +84,17 @@ function filterletter(char){
 		{
 		chararr[i] = document.getElementById("letterBtn"+(i+1)).innerHTML;
 		}
-		for(let i=0;i<result.length;i++)
+		for(let i=0;i<resultwithlength.length;i++)
 		{
 			found=true;
 
-			if(result[i].length==filterLen)
+			if(resultwithlength[i].length==filterLen)
 			{
 				for(let j=0;j<filterLen;j++)
 				{
 					if(chararr[j]!=' _ ')
 					{
-						if(chararr[j]!=result[i][j])
+						if(chararr[j]!=resultwithlength[i][j])
 						{
 							found=false;
 						}
@@ -102,7 +102,7 @@ function filterletter(char){
 				}
 				if (found==true)
 				{
-					filterwithletter+=result[i]+", ";
+					filterwithletter+=resultwithlength[i]+", ";
 					resultCount++;
 				}
 			}
@@ -111,8 +111,9 @@ function filterletter(char){
 		document.getElementById("results").innerHTML = "No result found";
 		resultCount=0;
 		}else{	
-	document.getElementById("results").innerHTML = filterwithletter.substring(0, filterwithletter.length-2);
-	}
+		document.getElementById("results").innerHTML = filterwithletter.substring(0, filterwithletter.length-2);
+		}
+	document.getElementById("resultsCount").innerHTML =resultCount;
 	}else{
 	document.getElementById("letterBtn"+char).innerHTML = arr1[letterindex];
 	if(letterindex<arr1.length-1)
@@ -132,28 +133,24 @@ function filternumber(len){
 	for (let i=0;i<resultwithlength.length;i++){
 		finalresult += resultwithlength[i]+", ";
 		}
-	for(let i=1;i<=filterLen;i++){
-		document.getElementById("letterBtn"+i).innerHTML = ' _ ';
-	}
 	resultCount=resultwithlength.length;
 	}else{
-	for(let i=0;i<result.length;i++){
-	if(result[i].length==len){
-		finalresult+=result[i]+", ";
+	for(let i=0;i<resultwithlength.length;i++){
+	if(resultwithlength[i].length==len){
+		finalresult+=resultwithlength[i]+", ";
 		resultCount++;
 		}
 	}
-	for(let i=1;i<=len;i++)
-	{letterfilter += '<button class="myButtonnumber" id="letterBtn'+i+'" onclick="filterletter('+i+')"> _ </button> ';}
-	letterfilter += '<br><br><button class="myButtonclear" id="letterBtnx" onclick="filterletter(-1)">X</button> ';
-	letterfilter += '<button class="myButtonnumber" id="letterBtnf" style="display: inline" onclick="filterletter(-2)">filter</button> ';
-	arr1=[];
-	let k=0;
-	for (key in inputarr) {
-		arr1[k]=key;
-		k++;
+	for(let i=1;i<=len;i++)	{
+	letterfilter += '<button class="myButtonnumber" id="letterBtn'+i+'" onclick="filterletter('+i+')"> _ </button>';
 	}
-	arr1[k]=" _ "
+	letterfilter += '<br><br><button class="myButtonclear" id="letterBtnx" onclick="filterletter(-1)">X</button>';
+	letterfilter += '<button class="myButtonnumber" id="letterBtnf" style="display: inline" onclick="filterletter(-2)">filter</button>';
+	arr1=[];
+	for (key in inputarr) {
+		arr1.push(key);
+	}
+	arr1.push(" _ ");
 	document.getElementById("con").innerHTML = letterfilter;
 	}
 
@@ -164,14 +161,15 @@ if (finalresult==""){
 	document.getElementById("results").innerHTML = finalresult.substring(0, finalresult.length-2);
 	}
 	document.getElementById("resultsCount").innerHTML =resultCount;
-
 }
 
 //find 
 function checkinput(){
-	result=[];
-let countletters = document.getElementById("letters").value;
-countletters = countletters.toLowerCase();
+result=[];
+let countletters = document.getElementById("letters").value.trim().toLowerCase();
+
+document.getElementById("con").innerHTML = ""; //clear letter filter
+
 if(countletters.length==0){
 	alert("Enter input");
 	document.getElementById("results").innerHTML = "Error";
@@ -180,9 +178,9 @@ if(countletters.length==0){
 document.getElementById("results").innerHTML = "Loading...";
 Exactletters = document.getElementById("Exactletters").checked;
  
-//take a-z A-Z letters only
-inputarr= getletters(countletters);
-inputarrString="[";
+//takes a-z A-Z letters only
+inputarr = getletters(countletters);
+inputarrString="[  ";
 for (key in inputarr) {
 	if (Exactletters==true)
 		inputarrString+=key + ":" + inputarr[key] + ", ";
@@ -190,23 +188,19 @@ for (key in inputarr) {
 		inputarrString+=key + ", ";
 	}
 
-document.getElementById("Searchedfor").innerHTML = inputarrString.substring(0, inputarrString.length-2)+"]";
+document.getElementById("Searchedfor").innerHTML = inputarrString.substring(0, inputarrString.length-2)+" ]";
 
-console.log(inputarr);
+//console.log(inputarr); //***
 
-	let k=0;
-	let lettersarray=[];
 for(let i=0;i<wordlist.length;i++)
 {
-	//lettersarray = getletters(wordlist[i]);
 	//checkword() doesn't check wordlist input 
 	if(checkword(wordlist[i],inputarr)==true)	{
-	result[k] = wordlist[i]
-	k++;
+	result.push(wordlist[i]);
 	}
 }
 
-console.log(result);
+//console.log(result); //***
 
 	if(result.length==0)
 		{
@@ -215,53 +209,59 @@ console.log(result);
 		}
 
 //filter
-let minwordlength = document.getElementById("minquantity").value;
-let maxwordlength = document.getElementById("maxquantity").value;
+// min=1 max=99;
+let minwordlength = Number(document.getElementById("minquantity").value);
+let maxwordlength = Number(document.getElementById("maxquantity").value); 
 let smallnum = maxwordlength - minwordlength;
+if ( minwordlength<1 || maxwordlength<1 || minwordlength>99 || maxwordlength>99){
+	alert("word length only 1-99");
+	return;
+}
 if (smallnum<0){
 let mintemp=minwordlength;
 minwordlength = maxwordlength;
 maxwordlength = mintemp;
 }
 
-numbersfilter = "Filter:";
-for(let i=minwordlength ;i<=maxwordlength;i++)
-{
-	if(i>0)
-	numbersfilter += '<button class="myButtonnumber"  onclick="filternumber('+i+')">'+i+'</button> ';
-}
-	numbersfilter += '<br><br> <button class="myButtonclear" onclick="filternumber(-1)">X</button> ';
-document.getElementById("numbers").innerHTML = numbersfilter;
-
 resultwithlength=[];
-k=0;
 for(let i=0;i<result.length;i++){
 	if(result[i].length>=minwordlength && result[i].length<=maxwordlength)
 	{
-		resultwithlength[k]=result[i];
-		k++;
+		resultwithlength.push(result[i]);
 	}
 }
-filternumber(-1); //show result with length //resultwithlength.toString();
+//show result with length //resultwithlength.toString();
+filternumber(-1); 
 
-console.log(resultwithlength);
+//show filter:
+numbersfilter = "";
+for(let i=Number(minwordlength);i<=Number(maxwordlength);i++)
+{
+	numbersfilter += '<button class="myButtonnumber"  onclick="filternumber('+i+')">'+i+'</button>';
 }
+numbersfilter += '<button class="myButtonclear" onclick="filternumber(-1)">X</button>';
+document.getElementById("numbers").innerHTML = numbersfilter;
 
+//console.log(resultwithlength); //***
+}
 </script>
 </head>
-
 <body >
 	<br>
-	<input checked="true "type="checkbox" id="Exactletters" name="Exactletters" value="Bike">
+	<div>
+	<input checked="true "type="checkbox" id="Exactletters" name="Exactletters">
 	<label for="Exactletters">Exact letters number or less</label><br>
+	</div>
+	<div>
 	<input placeholder="Search letters" class="inputtext "type="text" value="" id="letters" onkeypress="return searchKeyPress(event);" name="letters">
 	<input placeholder="Min" class="numberinput" type="number" maxlength="2" value="2" id="minquantity" name="minquantity" min="1" max="99">
 	<input placeholder="Max" class="numberinput" type="number" maxlength="2" value="8" id="maxquantity" name="maxquantity" min="1" max="99">
-	<br><label id="Searchedfor"></label><br>
+	</div>
+	<label class="Searchedfor" id="Searchedfor"></label><br>
 	<a class="myButton" id="findBtn" onclick="checkinput()">Find</a>
-	<div id="resultsCount" style="display: inline"></div><br><br>
+	<div class="Searchedfor" id="resultsCount" style="display: inline"></div><br>
 	<div id="results"></div><br>
-	<div id="numbers"></div><br>
-	<div id="con"></div><br>
+	<div class="Searchedfor" id="numbers"></div><br>
+	<div id="con"></div>
 </body>
 </html>
