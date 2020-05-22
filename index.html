@@ -167,21 +167,29 @@ function checkinput(){
 resultwithlength=[];
 letterindex=0;
 let countletters = document.getElementById("letters").value.trim().toLowerCase();
-
+document.getElementById("numbers").innerHTML = ""; //clear number filter
 document.getElementById("con").innerHTML = ""; //clear letter filter
+document.getElementById("resultsCount").innerHTML ="0";
 
 if(countletters.length==0){
 	alert("Enter input");
 	document.getElementById("results").innerHTML = "Error";
-	return;	}
+	return;	
+}
+
+if(countletters.length>100){
+	alert("input is too long");
+	document.getElementById("results").innerHTML = "Error";
+	return;	
+}
 
 document.getElementById("results").innerHTML = "Loading...";
 Exactletters = document.getElementById("Exactletters").checked;
 
  // min=1 max=99;
 let minwordlength = Number(document.getElementById("minquantity").value);
-let maxwordlength = Number(document.getElementById("maxquantity").value); 
-if ( minwordlength<1 || maxwordlength<1 || minwordlength>99 || maxwordlength>99){
+let maxwordlength = Number(document.getElementById("maxquantity").value);
+if (minwordlength<1 || maxwordlength<1 || minwordlength>99 || maxwordlength>99){
 	alert("word length only 1-99");
 	return;
 }
