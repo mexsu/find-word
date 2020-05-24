@@ -28,13 +28,11 @@ function searchKeyPress(e)
 }
 function getletters(word){
 let lettersarray=[];
-let index='';
 for (let i=0;i<word.length;i++){
         if(word[i]>='a' && word[i]<='z'){
-		index = word[i]; 
-		if(lettersarray[index]==null)
-			lettersarray[index] = 0;
-		lettersarray[index]++;
+		if(lettersarray[word[i]]==null)
+			lettersarray[word[i]] = 0;
+		lettersarray[word[i]]++;
 		}
 		else{
        console.log(`wrong input '${word[i]}'`);
@@ -45,15 +43,14 @@ for (let i=0;i<word.length;i++){
 
 function checkword(word,inputarr){
 	let lettersarray=[];
-	let index='';
+
 	for (let i=0;i<word.length;i++){
 		if(inputarr[word[i]]==null)
 			return false;
 		
-		index = word[i];
-		if(lettersarray[index]==null)
-			lettersarray[index] = 0;
-		lettersarray[index]++;
+		if(lettersarray[word[i]]==null)
+			lettersarray[word[i]] = 0;
+		lettersarray[word[i]]++;
 	}
 	if(Exactletters==false)
 		return true;
@@ -62,7 +59,6 @@ function checkword(word,inputarr){
 		if(lettersarray[key]>inputarr[key])
 			return false;
 	return true;
-
 }
 
 function filterletter(char){
@@ -170,6 +166,7 @@ let countletters = document.getElementById("letters").value.trim().toLowerCase()
 document.getElementById("numbers").innerHTML = ""; //clear number filter
 document.getElementById("con").innerHTML = ""; //clear letter filter
 document.getElementById("resultsCount").innerHTML ="0";
+document.getElementById("results").innerHTML = "Loading...";
 
 if(countletters.length==0){
 	alert("Enter input");
@@ -183,7 +180,6 @@ if(countletters.length>100){
 	return;	
 }
 
-document.getElementById("results").innerHTML = "Loading...";
 Exactletters = document.getElementById("Exactletters").checked;
 
  // min=1 max=99;
