@@ -1,264 +1,256 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Word finder</title>
-<meta charset="utf-8">
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="wordlist.js"></script>
-<link rel="stylesheet" type="text/css" href="style.css">
-<script>
-	let resultwithlength=[]; 
-	let inputarr=[];
-	let letterindex=0;
-	let arr1=[];
-	let filterLen=0;
-	let Exactletters=true;
-	let lenFound=[];
-function searchKeyPress(e)
-{
-    // look for window.event in case event isn't passed in
-    e = e || window.event;
-    if (e.keyCode == 13)
-    {
-        document.getElementById('findBtn').click();
-        return false;
-    }
-    return true;
-}
-function getletters(word){
-let lettersarray=[];
-for (let i=0;i<word.length;i++){
-        if(word[i]>='a' && word[i]<='z'){
-		if(lettersarray[word[i]]==null)
-			lettersarray[word[i]] = 0;
-		lettersarray[word[i]]++;
-		}
-		else{
-       console.log(`wrong input '${word[i]}'`);
-	 }
-}
-	return lettersarray;
-}
+    <title>Word finder</title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="wordlist.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script>
+        let resultwithlength = [];
+        let inputarr = [];
+        let letterindex = 0;
+        let arr1 = [];
+        let filterLen = 0;
+        let Exactletters = true;
+        let lenFound = [];
 
-function checkword(word,inputarr){
-	let lettersarray=[];
+        function searchKeyPress(e) {
+            // look for window.event in case event isn't passed in
+            e = e || window.event;
+            if (e.keyCode == 13) {
+                document.getElementById('findBtn').click();
+                return false;
+            }
+            return true;
+        }
 
-	for (let i=0;i<word.length;i++){
-		if(inputarr[word[i]]==null)
-			return false;
-		
-		if(lettersarray[word[i]]==null)
-			lettersarray[word[i]] = 0;
-		lettersarray[word[i]]++;
-	}
-	if(Exactletters==false)
-		return true;
-	
-	for (key in lettersarray)	
-		if(lettersarray[key]>inputarr[key])
-			return false;
-	return true;
-}
+        function getletters(word) {
+            let lettersarray = [];
+            for (let i = 0; i < word.length; i++) {
+                if (word[i] >= 'a' && word[i] <= 'z') {
+                    if (lettersarray[word[i]] == null)
+                        lettersarray[word[i]] = 0;
+                    lettersarray[word[i]]++;
+                } else {
+                    console.log(`wrong input '${word[i]}'`);
+                }
+            }
+            return lettersarray;
+        }
 
-function filterletter(char){
-	if(char==-1){
-		for(let i=1;i<=filterLen;i++){
-		document.getElementById("letterBtn"+i).innerHTML = ' _ ';
-		filternumber(filterLen);
-		}
-		letterindex=0;
-	}else if(char==-2){
-		let chararr=[];	
-		let found=true;
-		let filterwithletter="";
-		let resultCount=0;
-		for(let i=0;i<filterLen;i++)
-		{
-		chararr[i] = document.getElementById("letterBtn"+(i+1)).innerHTML;
-		}
-		for(let i=0;i<resultwithlength.length;i++)
-		{
-			found=true;
-			if(resultwithlength[i].length==filterLen)
-			{
-				for(let j=0;j<filterLen;j++)
-				{
-					if(chararr[j]!=' _ ')
-					{
-						if(chararr[j]!=resultwithlength[i][j])
-						{
-							found=false;
-						}
-					}
-				}
-				if (found==true)
-				{
-					filterwithletter+=resultwithlength[i]+", ";
-					resultCount++;
-				}
-			}
-		}
-		if (filterwithletter==""){
-		document.getElementById("results").innerHTML = "No result found";
-		resultCount=0;
-		}else{	
-		document.getElementById("results").innerHTML = filterwithletter.substring(0, filterwithletter.length-2);
-		}
-	document.getElementById("resultsCount").innerHTML =resultCount;
-	}else{
-	document.getElementById("letterBtn"+char).innerHTML = arr1[letterindex];
-	if(letterindex<arr1.length-1)
-		letterindex++;
-	else 
-		letterindex=0;
-	}
-}
+        function checkword(word, inputarr) {
+            let lettersarray = [];
 
-function filternumber(len){
-	let finalresult="";
-	let resultCount=0;
-	let letterfilter="";
-	if(len>0)
-		filterLen=len;
-	if(len==-1){
-	for (let i=0;i<resultwithlength.length;i++){
-		finalresult += resultwithlength[i]+", ";
-		}
-	resultCount=resultwithlength.length;
-	}else{
-	
-	if(lenFound[len]!=true)
-			return;
-	for(let i=0;i<resultwithlength.length;i++){
-		if(resultwithlength[i].length==len){
-			finalresult+=resultwithlength[i]+", ";
-			resultCount++;
-			}
-		}
-		for(let i=1;i<=len;i++)	{
-			letterfilter += '<button class="myButtonnumber" id="letterBtn'+i+'" onclick="filterletter('+i+')"> _ </button>';
-		}
-	letterfilter += '<br><br><button class="myButtonclear" id="letterBtnx" onclick="filterletter(-1)">X</button>';
-	letterfilter += '<button class="myButtonnumber" id="letterBtnf" style="display: inline" onclick="filterletter(-2)">filter</button>';
-	arr1=[];
-	for (key in inputarr) {
-		arr1.push(key);
-	}
-	arr1.push(" _ ");
-	document.getElementById("con").innerHTML = letterfilter;
-	}
+            for (let i = 0; i < word.length; i++) {
+                if (inputarr[word[i]] == null)
+                    return false;
 
-if (finalresult==""){
-		document.getElementById("results").innerHTML = "No result found";
-		resultCount=0;
-		}else{	
-	document.getElementById("results").innerHTML = finalresult.substring(0, finalresult.length-2);
-	}
-	document.getElementById("resultsCount").innerHTML =resultCount;
-}
+                if (lettersarray[word[i]] == null)
+                    lettersarray[word[i]] = 0;
+                lettersarray[word[i]]++;
+            }
+            if (Exactletters == false)
+                return true;
 
-//find 
-function checkinput(){
-resultwithlength=[];
-letterindex=0;
-let countletters = document.getElementById("letters").value.trim().toLowerCase();
-document.getElementById("numbers").innerHTML = ""; //clear number filter
-document.getElementById("con").innerHTML = ""; //clear letter filter
-document.getElementById("resultsCount").innerHTML ="0";
-document.getElementById("results").innerHTML = "Loading...";
+            for (key in lettersarray)
+                if (lettersarray[key] > inputarr[key])
+                    return false;
+            return true;
+        }
 
-if(countletters.length==0){
-	alert("Enter input");
-	document.getElementById("results").innerHTML = "Error";
-	return;	
-}
+        function filterletter(char) {
+            if (char == -1) {
+                for (let i = 1; i <= filterLen; i++) {
+                    document.getElementById("letterBtn" + i).innerHTML = ' _ ';
+                    filternumber(filterLen);
+                }
+                letterindex = 0;
+            } else if (char == -2) {
+                let chararr = [];
+                let found = true;
+                let filterwithletter = "";
+                let resultCount = 0;
+                for (let i = 0; i < filterLen; i++) {
+                    chararr[i] = document.getElementById("letterBtn" + (i + 1)).innerHTML;
+                }
+                for (let i = 0; i < resultwithlength.length; i++) {
+                    found = true;
+                    if (resultwithlength[i].length == filterLen) {
+                        for (let j = 0; j < filterLen; j++) {
+                            if (chararr[j] != ' _ ') {
+                                if (chararr[j] != resultwithlength[i][j]) {
+                                    found = false;
+                                }
+                            }
+                        }
+                        if (found == true) {
+                            filterwithletter += resultwithlength[i] + ", ";
+                            resultCount++;
+                        }
+                    }
+                }
+                if (filterwithletter == "") {
+                    document.getElementById("results").innerHTML = "No result found";
+                    resultCount = 0;
+                } else {
+                    document.getElementById("results").innerHTML = filterwithletter.substring(0, filterwithletter.length - 2);
+                }
+                document.getElementById("resultsCount").innerHTML = resultCount;
+            } else {
+                document.getElementById("letterBtn" + char).innerHTML = arr1[letterindex];
+                if (letterindex < arr1.length - 1)
+                    letterindex++;
+                else
+                    letterindex = 0;
+            }
+        }
 
-if(countletters.length>100){
-	alert("input is too long");
-	document.getElementById("results").innerHTML = "Error";
-	return;	
-}
+        function filternumber(len) {
+            let finalresult = "";
+            let resultCount = 0;
+            let letterfilter = "";
+            if (len > 0)
+                filterLen = len;
+            if (len == -1) {
+                for (let i = 0; i < resultwithlength.length; i++) {
+                    finalresult += resultwithlength[i] + ", ";
+                }
+                resultCount = resultwithlength.length;
+            } else {
 
-Exactletters = document.getElementById("Exactletters").checked;
+                if (lenFound[len] != true)
+                    return;
+                for (let i = 0; i < resultwithlength.length; i++) {
+                    if (resultwithlength[i].length == len) {
+                        finalresult += resultwithlength[i] + ", ";
+                        resultCount++;
+                    }
+                }
+                for (let i = 1; i <= len; i++) {
+                    letterfilter += '<button class="myButtonnumber" id="letterBtn' + i + '" onclick="filterletter(' + i + ')"> _ </button>';
+                }
+                letterfilter += '<br><br><button class="myButtonclear" id="letterBtnx" onclick="filterletter(-1)">X</button>';
+                letterfilter += '<button class="myButtonnumber" id="letterBtnf" style="display: inline" onclick="filterletter(-2)">filter</button>';
+                arr1 = [];
+                for (key in inputarr) {
+                    arr1.push(key);
+                }
+                arr1.push(" _ ");
+                document.getElementById("con").innerHTML = letterfilter;
+            }
 
- // min=1 max=99;
-let minwordlength = Number(document.getElementById("minquantity").value);
-let maxwordlength = Number(document.getElementById("maxquantity").value);
-if (minwordlength<1 || maxwordlength<1 || minwordlength>99 || maxwordlength>99){
-	alert("word length only 1-99");
-	return;
-}
+            if (finalresult == "") {
+                document.getElementById("results").innerHTML = "No result found";
+                resultCount = 0;
+            } else {
+                document.getElementById("results").innerHTML = finalresult.substring(0, finalresult.length - 2);
+            }
+            document.getElementById("resultsCount").innerHTML = resultCount;
+        }
 
-//takes a-z A-Z letters only
-inputarr = getletters(countletters);
-inputarrString="[  ";
-for (key in inputarr) {
-	if (Exactletters==true)
-		inputarrString+=key + ":" + inputarr[key] + ", ";
-	else
-		inputarrString+=key + ", ";
-	}
+        //find 
+        function checkinput() {
+            resultwithlength = [];
+            letterindex = 0;
+            let countletters = document.getElementById("letters").value.trim().toLowerCase();
+            document.getElementById("numbers").innerHTML = ""; //clear number filter
+            document.getElementById("con").innerHTML = ""; //clear letter filter
+            document.getElementById("resultsCount").innerHTML = "0";
+            document.getElementById("results").innerHTML = "Loading...";
 
-document.getElementById("Searchedfor").innerHTML = inputarrString.substring(0, inputarrString.length-2)+" ]";
+            if (countletters.length == 0) {
+                alert("Enter input");
+                document.getElementById("results").innerHTML = "Error";
+                return;
+            }
 
-//console.log(inputarr); //***
-if (maxwordlength - minwordlength<0){
-let mintemp=minwordlength;
-minwordlength = maxwordlength;
-maxwordlength = mintemp;
-}
-lenFound=[];
-for(let i=0;i<wordlist.length;i++)
-{
-	//checkword() doesn't check wordlist input 
-	if(wordlist[i].length>=minwordlength && wordlist[i].length<=maxwordlength){
-		if(checkword(wordlist[i],inputarr)==true){
-			resultwithlength.push(wordlist[i]);
-			lenFound[wordlist[i].length] = true; 
-		}
-	}
-}
-	if(resultwithlength.length==0)
-		{
-			document.getElementById("results").innerHTML = "No result found";
-			document.getElementById("resultsCount").innerHTML ="0";
-			return;
-		}
+            if (countletters.length > 100) {
+                alert("input is too long");
+                document.getElementById("results").innerHTML = "Error";
+                return;
+            }
 
-//show result with length //resultwithlength.toString();
-filternumber(-1); 
+            Exactletters = document.getElementById("Exactletters").checked;
 
-//show filter:
-let numbersfilter = "";
-for(let i=0;i<lenFound.length;i++)
-{
-	if(lenFound[i]==true)
-	numbersfilter += '<button class="myButtonnumber" onclick="filternumber('+i+')">'+i+'</button>';
-}
-numbersfilter += '<button class="myButtonclear" onclick="filternumber(-1)">X</button>';
-document.getElementById("numbers").innerHTML = numbersfilter;
+            // min=1 max=99;
+            let minwordlength = Number(document.getElementById("minquantity").value);
+            let maxwordlength = Number(document.getElementById("maxquantity").value);
+            if (minwordlength < 1 || maxwordlength < 1 || minwordlength > 99 || maxwordlength > 99) {
+                alert("word length only 1-99");
+                return;
+            }
 
-//console.log(resultwithlength); //***
-}
-</script>
+            //takes a-z A-Z letters only
+            inputarr = getletters(countletters);
+            inputarrString = "[  ";
+            for (key in inputarr) {
+                if (Exactletters == true)
+                    inputarrString += key + ":" + inputarr[key] + ", ";
+                else
+                    inputarrString += key + ", ";
+            }
+
+            document.getElementById("Searchedfor").innerHTML = inputarrString.substring(0, inputarrString.length - 2) + " ]";
+
+            //console.log(inputarr); //***
+            if (maxwordlength - minwordlength < 0) {
+                let mintemp = minwordlength;
+                minwordlength = maxwordlength;
+                maxwordlength = mintemp;
+            }
+            lenFound = [];
+            for (let i = 0; i < wordlist.length; i++) {
+                //checkword() doesn't check wordlist input 
+                if (wordlist[i].length >= minwordlength && wordlist[i].length <= maxwordlength) {
+                    if (checkword(wordlist[i], inputarr) == true) {
+                        resultwithlength.push(wordlist[i]);
+                        lenFound[wordlist[i].length] = true;
+                    }
+                }
+            }
+            if (resultwithlength.length == 0) {
+                document.getElementById("results").innerHTML = "No result found";
+                document.getElementById("resultsCount").innerHTML = "0";
+                return;
+            }
+
+            //show result with length //resultwithlength.toString();
+            filternumber(-1);
+
+            //show filter:
+            let numbersfilter = "";
+            for (let i = 0; i < lenFound.length; i++) {
+                if (lenFound[i] == true)
+                    numbersfilter += '<button class="myButtonnumber" onclick="filternumber(' + i + ')">' + i + '</button>';
+            }
+            numbersfilter += '<button class="myButtonclear" onclick="filternumber(-1)">X</button>';
+            document.getElementById("numbers").innerHTML = numbersfilter;
+
+            //console.log(resultwithlength); //***
+        }
+    </script>
 </head>
-<body >
-	<br>
-	<div>
-	<input type="checkbox" id="Exactletters" name="Exactletters" checked>
-	<label for="Exactletters">Exact letters number or less</label><br>
-	</div>
-	<div>
-	<input placeholder="Search letters" class="inputtext "type="text" value="" id="letters" onkeypress="return searchKeyPress(event);" name="letters">
-	<input placeholder="Min" class="numberinput" type="number" maxlength="2" value="2" id="minquantity" name="minquantity" min="1" max="99">
-	<input placeholder="Max" class="numberinput" type="number" maxlength="2" value="7" id="maxquantity" name="maxquantity" min="1" max="99">
-	</div>
-	<label class="Searchedfor" id="Searchedfor"></label><br>
-	<a class="myButton" id="findBtn" onclick="checkinput()">Find</a>
-	<div class="Searchedfor" id="resultsCount" style="display: inline"></div><br>
-	<div id="results"></div><br>
-	<div class="Searchedfor" id="numbers"></div><br>
-	<div id="con"></div>
+
+<body>
+    <br>
+    <div>
+        <input type="checkbox" id="Exactletters" name="Exactletters" checked>
+        <label for="Exactletters">Exact letters number or less</label><br>
+    </div>
+    <div>
+        <input placeholder="Search letters" class="inputtext " type="text" value="" id="letters" onkeypress="return searchKeyPress(event);" name="letters">
+        <input placeholder="Min" class="numberinput" type="number" maxlength="2" value="2" id="minquantity" name="minquantity" min="1" max="99">
+        <input placeholder="Max" class="numberinput" type="number" maxlength="2" value="7" id="maxquantity" name="maxquantity" min="1" max="99">
+    </div>
+    <label class="Searchedfor" id="Searchedfor"></label><br>
+    <a class="myButton" id="findBtn" onclick="checkinput()">Find</a>
+    <div class="Searchedfor" id="resultsCount" style="display: inline"></div><br>
+    <div id="results"></div><br>
+    <div class="Searchedfor" id="numbers"></div><br>
+    <div id="con"></div>
 </body>
+
 </html>

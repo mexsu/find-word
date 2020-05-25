@@ -1,109 +1,122 @@
-body{
-	text-align: center;
+body {
+    text-align: center;
 }
 
 .inputtext {
-  font-size: 1.2em;
-  padding: 8px 14px;
-  box-sizing: border-box;
-  margin:2px;
-  width: 180px;
+    font-size: 1.2em;
+    padding: 8px 14px;
+    box-sizing: border-box;
+    margin: 2px;
+    width: 180px;
 }
-.numberinput {
-	text-align:center;
-	width: 65px;
-	font-family:Arial;
-	font-size:15px;
-	padding: 4px;
-	font-weight:bold;
-	margin: 2px 0;
-	box-sizing: border-box;
-}
-/*find button*/
-.myButton {
-	box-shadow:inset 0px 1px 0px 0px #97c4fe;
-	background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
-	background-color:#3d94f6;
-	border-radius:6px;
-	border:1px solid #337fed;
-	display:inline-block;
-	cursor:pointer;
-	color:#000000;
-	font-family:Arial;
-	font-size:17px;
-	padding:6px 22px;
-	margin-top:6px;
-	margin-bottom:6px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #1570cd;
-}
-.myButton:hover {
-	background:linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
-	background-color:#1e62d0;
-}
-.myButton:active {
-	position:relative;
-	top:1px;
-}
-/*number,letters button*/
-.myButtonnumber {
-	background-color:#3d94f6;
-	border-radius:6px;
-	border:1px solid #337fed;
-	display:inline-block;
-	cursor:pointer;
-	color:#000000;
-	font-family:Arial;
-	font-size:20px;
-	padding:6px 20px;
-	margin:2px;
 
-	font-weight:bold;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #1570cd;
+.numberinput {
+    text-align: center;
+    width: 65px;
+    font-family: Arial;
+    font-size: 15px;
+    padding: 4px;
+    font-weight: bold;
+    margin: 2px 0;
+    box-sizing: border-box;
 }
+
+
+/*find button*/
+
+.myButton {
+    box-shadow: inset 0px 1px 0px 0px #97c4fe;
+    background: linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+    background-color: #3d94f6;
+    border-radius: 6px;
+    border: 1px solid #337fed;
+    display: inline-block;
+    cursor: pointer;
+    color: #000000;
+    font-family: Arial;
+    font-size: 17px;
+    padding: 6px 22px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #1570cd;
+}
+
+.myButton:hover {
+    background: linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
+    background-color: #1e62d0;
+}
+
+.myButton:active {
+    position: relative;
+    top: 1px;
+}
+
+
+/*number,letters button*/
+
+.myButtonnumber {
+    background-color: #3d94f6;
+    border-radius: 6px;
+    border: 1px solid #337fed;
+    display: inline-block;
+    cursor: pointer;
+    color: #000000;
+    font-family: Arial;
+    font-size: 20px;
+    padding: 6px 20px;
+    margin: 2px;
+    font-weight: bold;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #1570cd;
+}
+
 .myButtonnumber:hover {
-	background:linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
-	background-color:#1e62d0;
+    background: linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
+    background-color: #1e62d0;
 }
+
 .myButtonnumber:active {
-	position:relative;
-	top:1px;
+    position: relative;
+    top: 1px;
 }
 
 .myButtonclear {
-	box-shadow:inset 0px 1px 0px 0px #f29c93;
-	background:linear-gradient(to bottom, #fe1a00 5%, #ce0100 100%);
-	background-color:#fe1a00;
-	border-radius:6px;
-	border:1px solid #d83526;
-	display:inline-block;
-	cursor:pointer;
-	color:#000000;
-	font-family:Arial;
-	font-size:20px;
-	padding:6px 20px;
-	font-weight:bold;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #b23e35;
-}
-.myButtonclear:hover {
-	background:linear-gradient(to bottom, #ce0100 5%, #fe1a00 100%);
-	background-color:#ce0100;
-}
-.myButtonclear:active {
-	position:relative;
-	top:1px;
+    box-shadow: inset 0px 1px 0px 0px #f29c93;
+    background: linear-gradient(to bottom, #fe1a00 5%, #ce0100 100%);
+    background-color: #fe1a00;
+    border-radius: 6px;
+    border: 1px solid #d83526;
+    display: inline-block;
+    cursor: pointer;
+    color: #000000;
+    font-family: Arial;
+    font-size: 20px;
+    padding: 6px 20px;
+    font-weight: bold;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #b23e35;
 }
 
-#results{
-	font-family:Arial;
-	font-size:21px;
-	font-weight:bold;
-	margin-right:2%;
-	margin-left:2%
+.myButtonclear:hover {
+    background: linear-gradient(to bottom, #ce0100 5%, #fe1a00 100%);
+    background-color: #ce0100;
 }
-.Searchedfor{
-	font-family:Arial;
-	font-size:16px;
+
+.myButtonclear:active {
+    position: relative;
+    top: 1px;
+}
+
+#results {
+    font-family: Arial;
+    font-size: 21px;
+    font-weight: bold;
+    margin-right: 2%;
+    margin-left: 2%
+}
+
+.Searchedfor {
+    font-family: Arial;
+    font-size: 16px;
 }
