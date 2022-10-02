@@ -3,24 +3,32 @@ body {
 }
 
 .inputtext {
-    font-size: 1.2em;
-    padding: 8px 14px;
+    font-size: 1.3em;
+    padding: 10px 40px;
     box-sizing: border-box;
-    margin: 2px;
-    width: 180px;
+    margin: 1px 14px 14x 1px;
+    width: 100%;
+    text-align: center;
 }
 
 .numberinput {
     text-align: center;
-    width: 65px;
     font-family: Arial;
-    font-size: 15px;
-    padding: 4px;
+    font-size: 1.1em;
+    padding: 6px 0px;
+    margin: 8px 2px;
     font-weight: bold;
-    margin: 2px 0;
     box-sizing: border-box;
 }
 
+#Exactletters {
+    width: 20px;
+    height: 20px;
+}
+
+#Exactlabel {
+    font-size: 1.1em;
+}
 
 /*find button*/
 
@@ -32,7 +40,7 @@ body {
     border: 1px solid #337fed;
     display: inline-block;
     cursor: pointer;
-    color: #000000;
+    color: #FFFFFF;
     font-family: Arial;
     font-size: 17px;
     padding: 6px 22px;
@@ -51,7 +59,6 @@ body {
     position: relative;
     top: 1px;
 }
-
 
 /*number,letters button*/
 
